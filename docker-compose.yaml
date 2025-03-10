@@ -1,0 +1,69 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: rawgDatabase
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - backend
+
+  seeder:
+    container_name: seeder
+    build:
+      context: ./seeder
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
+    networks:
+      - backend
+    volumes:
+      - ./seeder:/app
+
+  rawg-server:
+    container_name: rawg-server
+    build:
+      context: ./rawg-server
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    environment:
+      DATABASE_URL: mysql://root:rootpassword@mysql:3306/rawgDatabase
+    ports:
+      - "5001:5001"
+    networks:
+      - backend
+      - frontend
+    volumes:
+      - ./rawg-server:/app
+
+  rawg-client:
+    container_name: rawg-client
+    build:
+      context: ./rawg-client
+      dockerfile: Dockerfile
+    environment:
+      VITE_API_URL: http://localhost:5001
+      CHOKIDAR_USEPOLLING: true
+    depends_on:
+      - rawg-server
+    ports:
+      - "3001:3001"
+    networks:
+      - frontend
+    volumes:
+      - ./rawg-client:/app
+      - /app/node_modules
+
+volumes:
+  mysql_data:
+
+networks:
+  backend:
+  frontend:
