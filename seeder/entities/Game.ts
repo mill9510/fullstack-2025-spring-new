@@ -23,6 +23,15 @@ export class Game {
   @Column({ nullable: true })
   background_image?: string;
 
+  @Column({ type: "float", nullable: true })
+  rating?: number;
+
+  @Column({ nullable: true })
+  released?: string;
+
+  @Column({ nullable: true })
+  added?: number;
+
   @ManyToMany(() => Genre, (genre) => genre.games)
   @JoinTable()
   genres: Genre[];

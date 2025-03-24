@@ -23,6 +23,8 @@ export class Game {
   @Column({ nullable: true })
   background_image?: string;
 
+  
+
   @ManyToMany(() => Genre, (genre) => genre.games)
   @JoinTable()
   genres: Genre[];

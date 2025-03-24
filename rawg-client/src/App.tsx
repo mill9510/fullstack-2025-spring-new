@@ -65,14 +65,14 @@ function App() {
       </Show>
       <GridItem pl="2" area={"main"}>
         <HStack>
-        <PlatformSelector
-          selectedPlatform={gameQuery.platform}
-          onSelectedPlatform={handleOnSelectedPlatform}
-        />
-        <SortSelector 
-        sortOrder={gameQuery.sortOrder}
-        onSelectSortOrder={handleOnSelectedSortOrder}
-        />
+          <PlatformSelector
+            selectedPlatform={gameQuery.platform}
+            onSelectedPlatform={handleOnSelectedPlatform}
+          />
+          <SortSelector
+            sortOrder={gameQuery.sortOrder}
+            onSelectSortOrder={handleOnSelectedSortOrder}
+          />
         </HStack>
         <GameGrid gameQuery={gameQuery} />
       </GridItem>

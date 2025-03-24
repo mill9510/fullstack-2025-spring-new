@@ -1,22 +1,22 @@
 import { Router } from "express";
+import { Store } from "../entities/Store";
 import { AppDataSource } from "../startup/data-source";
-import { ParentPlatform } from "../entities/ParentPlatform";
 
 interface Response {
   count: number;
-  results: ParentPlatform[];
+  results: Store[];
 }
 
-const parentPlatformRouter = Router();
-const parentPlatformRepository = AppDataSource.getRepository(ParentPlatform);
+const storeRouter = Router();
+const storeRepository = AppDataSource.getRepository(Store);
 
-parentPlatformRouter.get("/", async (req, res) => {
-  const parentPlatforms = await parentPlatformRepository.find();
+storeRouter.get("/", async (req, res) => {
+  const stores = await storeRepository.find();
   const response: Response = {
-    count: parentPlatforms.length,
-    results: parentPlatforms,
+    count: stores.length,
+    results: stores,
   };
   res.send(response);
 });
 
-export default parentPlatformRouter;
+export default storeRouter;
